@@ -1,0 +1,20 @@
+<p id="notice"><%= notice %></p>
+
+
+<%= form_tag '/user_answers' do %>
+  <%= @question.content %>
+  <%= hidden_field_tag :question_id, @question.id %>
+  <br />
+  <% @question.answers.each do |answer| %>
+    <%= radio_button_tag 'answer_id', answer.id %> <%= answer.content %>
+    <br />
+  <% end %>
+  <%= "flash: #{flash[:notice]}" %>
+  <% unless flash[:notice].eql? "last" %>
+    <%= submit_tag 'Next'%>
+  <% end %>
+<% end %>
+  <%= link_to 'Finish', "/user_answers/finish" %>
+<%= flash.inspect%>
+<%= link_to 'Edit', edit_question_path(@question) %> |
+<%= link_to 'Back', questions_path %>
