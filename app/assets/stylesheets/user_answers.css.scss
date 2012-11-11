@@ -1,3 +1,27 @@
 // Place all the styles related to the UserAnswers controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+ul
+{
+    list-style-type: none;
+
+    #right_answer {
+      background-color: #DDFFDD;
+    }
+
+    #your_answer {
+      background-color: #FFDDDD;
+    }
+
+    li {
+      width: 40%;
+      margin-bottom: 3px;
+    }
+}
+
+#results {
+  //margin-left: 45%;
+  margin-bottom: 20px;
+}

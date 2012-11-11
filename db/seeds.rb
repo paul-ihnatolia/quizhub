@@ -20,7 +20,7 @@
       line = file_lines[i]
       if line =~ /^\d/
         puts "Question " + line
-        line.gsub!(/\d\./,'')
+        line.gsub!(/\d*\./,'')
         line.strip
         question = Question.create(content: line)
         i+=1

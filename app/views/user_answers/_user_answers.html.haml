@@ -1,0 +1,5 @@
+- @user_answers.each do |user_answer|
+  %p.question_content= user_answer.question.id.to_s + "." + "  " + user_answer.question.content
+  %ul.answers
+    %li#your_answer= user_answer.answer.content
+    %li#right_answer= getRightAnswerForQuestionId(user_answer.question.id)

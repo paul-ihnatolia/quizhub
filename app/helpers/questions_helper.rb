@@ -6,6 +6,5 @@ module QuestionsHelper
       title = "Finish"
       path  = "#"
     end
-    button_to "#{title}", "#{path}", :method => :get
   end
 end

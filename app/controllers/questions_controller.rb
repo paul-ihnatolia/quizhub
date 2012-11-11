@@ -1,7 +1,9 @@
+# encoding: utf-8
 class QuestionsController < ApplicationController
   # GET /questions
   # GET /questions.json
   def index
+
     @questions = Question.all
 
     respond_to do |format|
@@ -13,6 +15,12 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   # GET /questions/1.json
   def show
+    unless params[:restart].blank?
+      puts "Before method call"
+      flash[:notice] = "Почнемо!"
+      set_empty_session
+     end
+    puts params
     @question = Question.find(params[:id])
 
     respond_to do |format|

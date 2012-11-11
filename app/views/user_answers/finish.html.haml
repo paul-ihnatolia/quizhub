@@ -1,3 +1,12 @@
-%h2 Your results:
-%p= "Right answers #{@right.size}"
-%p= "Wrong answers #{@wrong.size}"
+#results
+  %h2 Your results:
+  %p= "Total #{@right_answers.size + @wrong_answers.size}"
+  #right_answers
+    %p= "Right answers #{@right_answers.size}"
+    = link_to 'Show right answers', '/user_answers?category=right'
+  #wrong_answers
+    %p= "Wrong answers #{@wrong_answers.size}"
+    = link_to 'Show wrong answers', '/user_answers?category=wrong', remote: true
+.restart_new
+  = link_to 'Restart', '/questions/1?restart=true', class: "button"
+
