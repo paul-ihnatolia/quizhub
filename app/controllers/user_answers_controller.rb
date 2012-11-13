@@ -61,15 +61,16 @@ class UserAnswersController < ApplicationController
       answer = Answer.find(answer_id)
     rescue ActiveRecord::RecordNotFound
       #suppose that answer was empty
-      flash[:notice] = "Вибери відповідь!"
+      flash[:error] = "Вибери відповідь!"
       redirect_to :back
       return
     end
+
     message = "відповідь"
     if answer.right
-      message = "Правильна " + message
+      flash[:notice] = "Правильна " + message
     else
-      message = "Невірна " + message
+      flash[:error] = "Невірна " + message
     end
 
     path_for_redirection = ""
@@ -85,7 +86,7 @@ class UserAnswersController < ApplicationController
 
     respond_to do |format|
       if @user_answer.save
-        format.html { redirect_to path_for_redirection, notice: message }
+        format.html { redirect_to path_for_redirection }
         format.json { render json: @user_answer, status: :created, location: @user_answer }
       else
         format.html { render action: "new" }
@@ -124,8 +125,8 @@ class UserAnswersController < ApplicationController
   end
 
   def finish
-    @wrong_answers = getWrongUserAnswers
-    @right_answers = getRightUserAnswers
+    @wrong_answers = getWrongUserAnswers.uniq
+    @right_answers = getRightUserAnswers.uniq
     #set_empty_session
 =begin
     @right = session[:right_answers].nil? ? [] : session[:right_answers]

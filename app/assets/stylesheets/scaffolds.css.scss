@@ -1,5 +1,5 @@
 body {
-  background-color: #fff;
+  background-color: #CCD9C8;
   color: #333;
   font-family: verdana, arial, helvetica, sans-serif;
   font-size: 13px;
@@ -37,6 +37,10 @@ div {
 
 #notice {
   color: green;
+}
+
+#error {
+  color: red;
 }
 
 .field_with_errors {

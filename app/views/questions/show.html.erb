@@ -1,4 +1,11 @@
-<p id="notice"><%= notice %></p>
+<% unless flash[:error].blank? %>
+  <p id="error"><%= flash[:error] %> </p>
+<% end %>
+
+<% unless flash[:notice].blank? %>
+  <p id="notice"><%= notice %></p>
+<% end %>
+
 
 
 <%= form_tag '/user_answers' do %>
