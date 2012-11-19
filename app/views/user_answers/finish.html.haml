@@ -1,6 +1,7 @@
 #results
   %h2 Your results:
   %p= "Total #{@right_answers.size + @wrong_answers.size}"
+  %p= "Success: #{percent(@right_answers.size,(@right_answers.size+@wrong_answers.size))}"
   #right_answers
     %p= "Right answers #{@right_answers.size}"
     = link_to 'Show right answers', '/user_answers?category=right'
