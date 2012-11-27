@@ -65,12 +65,15 @@ class UserAnswersController < ApplicationController
                                  attempt_no: attempt_no)
     begin
       right_answers = question.get_right_answers
+      right = true
+      right = false if right_answers.size != answer_id_array.size
       answer_id_array.each do |answer_id|
         answer = Answer.find(answer_id)
         right_answers.delete answer
         @user_answer.answer << answer
       end
-      @user_answer.right = right_answers.empty?
+      puts "Right sadddddddddddddddddddddddddddddddddddddddddddddddddddddd" + right.to_s
+      @user_answer.right = right ? right_answers.empty? : right
     rescue
       #suppose that answer was empty
       flash[:error] = "Вибери відповідь!"
