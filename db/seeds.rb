@@ -70,7 +70,7 @@ def change_image file_line
 end
 ############################################
 def full_database directory, category_name, task_file, answer_file
-  current_poll_category = PollCategory.create(name: category_name)
+  current_poll_category = PollCategory.create(name: category_name, multiple_answers: true)
   task_file_lines = File.open(directory + '/' + task_file).readlines
   @answer_file_lines = File.open(directory + '/' + answer_file).readlines
 
