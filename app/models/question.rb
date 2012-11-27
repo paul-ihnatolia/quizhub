@@ -7,4 +7,9 @@ class Question < ActiveRecord::Base
   def to_s
     "Question id=#{self.id.to_s} content: #{content.to_s} poll_category_id : #{poll_category_id.to_s}, original list number : #{original_list_number.to_s}"
   end
+
+  def get_right_answers
+    self.answers.find_all {|a| a.right}
+  end
+
 end

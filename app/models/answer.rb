@@ -8,4 +8,9 @@ class Answer < ActiveRecord::Base
   def to_s
     "Answer id: #{id.to_s}, content: #{content}, right: #{right.to_s}"
   end
+
+  def eql? a
+    self.id == a.id
+  end
+
 end
