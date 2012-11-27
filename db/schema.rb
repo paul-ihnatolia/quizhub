@@ -11,29 +11,47 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121110210730) do
+ActiveRecord::Schema.define(:version => 20121123150158) do
 
   create_table "answers", :force => true do |t|
     t.string   "content"
     t.boolean  "right"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.integer  "question_id"
+    t.integer  "user_answer_id"
+  end
+
+  create_table "poll_boards", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "body"
+  end
+
+  create_table "poll_categories", :force => true do |t|
+    t.string   "name"
+    t.integer  "poll_board_id"
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
+    t.boolean  "multiple_answers", :default => false
   end
 
   create_table "questions", :force => true do |t|
     t.string   "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",           :null => false
+    t.datetime "updated_at",           :null => false
+    t.integer  "poll_category_id"
+    t.integer  "original_list_number"
   end
 
   create_table "user_answers", :force => true do |t|
     t.integer  "user_id"
     t.integer  "question_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.integer  "answer_id"
     t.integer  "attempt_no"
+    t.boolean  "right",       :default => true
   end
 
 end

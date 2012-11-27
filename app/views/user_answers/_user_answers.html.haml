@@ -1,5 +1,8 @@
 - @user_answers.each do |user_answer|
-  %p.question_content= user_answer.question.id.to_s + "." + "  " + user_answer.question.content
+  %p.question_content= user_answer.question.original_list_number.to_s + "." + "  " + user_answer.question.content
   %ul.answers
-    %li#your_answer= user_answer.answer.content
-    %li#right_answer= getRightAnswerForQuestionId(user_answer.question.id)
+    - user_answer.answer.each do |answer|
+      - unless answer.right
+        %li#your_answer= answer.content.html_safe
+    - getRightAnswerForQuestionId(user_answer.question_id).each do |answer|
+      %li#right_answer= answer.content.html_safe

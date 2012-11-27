@@ -10,14 +10,26 @@
 
 <%= form_tag '/user_answers' do %>
   <p class = "question_content" >
-    <%= @question.content %>
+    <%= @question.content.html_safe %>
   </p>
-  <%= hidden_field_tag :question_id, @question.id %>
-  <div class = "answers">
-    <% @question.answers.shuffle.each do |answer| %>
-      <%= radio_button_tag 'answer_id', answer.id %> <%= answer.content %>
-      <br />
-    <% end %>
+  <%= hidden_field_tag :question_orig_no, @question.original_list_number %>
+   <%= hidden_field_tag :category_id, @question.poll_category_id %>
+   <div class = "answers">
+     <%if !@question.poll_category.multiple_answers%>
+       <% @question.answers.shuffle.each do |answer| %>
+         <div class="answer">
+           <%= radio_button_tag 'answer_id[]', answer.id %> <%= answer.content.html_safe %>
+           </div>
+        <br />
+      <% end %>
+    <%else%>
+      <% @question.answers.shuffle.each do |answer| %>
+        <div class="answer">
+        <%= check_box_tag 'answer_id[]', answer.id %> <%= answer.content.html_safe %>
+        </div>
+        <br />
+      <%end%>
+    <%end%>
   </div>
 
   <%= submit_tag 'Next', class: "button"%>

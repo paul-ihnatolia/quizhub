@@ -1,0 +1,19 @@
+%h1 Listing poll_categories
+
+%table
+  %tr
+    %th String
+    %th
+    %th
+    %th
+
+  - @poll_categories.each do |poll_category|
+    %tr
+      %td= poll_category.string
+      %td= link_to 'Show', poll_category
+      %td= link_to 'Edit', edit_poll_category_path(poll_category)
+      %td= link_to 'Destroy', poll_category, method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'New Poll category', new_poll_category_path

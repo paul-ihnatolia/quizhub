@@ -54,35 +54,44 @@ class UserAnswersController < ApplicationController
   # POST /user_answers.json
   def create
     #temp code(without user registration)
-    answer_id = params[:answer_id]
-    question_id = params[:question_id]
+    answer_id_array = params[:answer_id]
+    original_question_no = params[:question_orig_no]
+    category_id = params[:category_id]
+    question = Question.where(original_list_number: original_question_no, poll_category_id: category_id).first
     attempt_no = current_attempt
+
+    right_all = true
+    @user_answer = UserAnswer.new(question_id: question.id,
+                                 attempt_no: attempt_no)
     begin
-      answer = Answer.find(answer_id)
-    rescue ActiveRecord::RecordNotFound
+      answer_id_array.each do |answer_id|
+        answer = Answer.find(answer_id)
+        @user_answer.right = false  if !answer.right
+        @user_answer.answer << answer
+      end
+    rescue
       #suppose that answer was empty
       flash[:error] = "Вибери відповідь!"
       redirect_to :back
       return
     end
 
-    message = "відповідь"
-    if answer.right
-      flash[:notice] = "Правильна " + message
+    if @user_answer.right
+      flash[:notice] = "Правильна(-і) відповіді"
     else
-      flash[:error] = "Невірна " + message
+      flash[:error] = "Невірна одна чи більше відповідей"
     end
-
+#errrrrrrrrrrors!!
     path_for_redirection = ""
-    if question_id.to_i == Question.last.id
+    puts "Question id = #{question.to_s}"
+    if question.id == Question.last.id
       path_for_redirection = "/user_answers/finish"
     else
-      r_url = path_for_redirection question_id
-      path_for_redirection = "/questions/#{r_url}" if r_url != nil
+      r_url = path_for_redirection question.original_list_number, category_id
+      path_for_redirection = r_url if r_url != nil
     end
 
-    @user_answer = UserAnswer.new(question_id: question_id, answer_id: answer_id,\
-                                 attempt_no: attempt_no)
+
 
     respond_to do |format|
       if @user_answer.save
@@ -127,6 +136,7 @@ class UserAnswersController < ApplicationController
   def finish
     @wrong_answers = getWrongUserAnswers.uniq
     @right_answers = getRightUserAnswers.uniq
+    puts params
     #set_empty_session
 =begin
     @right = session[:right_answers].nil? ? [] : session[:right_answers]
@@ -138,28 +148,32 @@ class UserAnswersController < ApplicationController
 
   private
 
-  def path_for_redirection id
-    last_question_id = Question.last.id
-    if last_question_id >= id.to_i
-      flash[:notice] = "last" if last_question_id == id.to_i
-      puts flash[:notice]
-      id.to_i + 1
-    else
-      nil
-    end
+  def path_for_redirection origin_no,category_id
+    origin_no+=1
+    #next_question_id = Question.where(original_list_number: origin_no).first.id
+    #last_question_id = Question.last.id
+#    if last_question_id >= id.to_i
+#      flash[:notice] = "last" if last_question_id == id.to_i
+ #     puts flash[:notice]
+ #     id.to_i + 1
+ #   else
+ #     nil
+ #   end
+    "/poll_categories/#{category_id}/questions/#{origin_no}"
+
   end
 
   def getWrongUserAnswers
    wrong_answers = []
    user_answers = getAllUserAnswersForCurrentAttempt
-   user_answers.each { |u_answer| wrong_answers << u_answer unless u_answer.answer.right }
+   user_answers.each { |u_answer| wrong_answers << u_answer unless u_answer.right }
    wrong_answers
   end
 
   def getRightUserAnswers
    right_answers = []
    user_answers = getAllUserAnswersForCurrentAttempt
-   user_answers.each { |u_answer| right_answers << u_answer if u_answer.answer.right }
+   user_answers.each { |u_answer| right_answers << u_answer if u_answer.right }
    right_answers
   end
 

@@ -1,9 +1,16 @@
 Quizhub::Application.routes.draw do
+
+  resources :poll_categories do
+    resources :questions
+  end
+
+  resource :poll_boards
+
   resources :user_answers do
     get "finish", on: :collection
   end
 
-  resources :questions
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

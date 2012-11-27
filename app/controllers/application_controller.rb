@@ -30,7 +30,8 @@ class ApplicationController < ActionController::Base
 
   def set_empty_session
     session[:current_attempt] = nil
-    puts "emptyyyyyyyyyyyyyyyyyyyyy!!!"
+    puts "empty session!!!"
   end
+
 
 end

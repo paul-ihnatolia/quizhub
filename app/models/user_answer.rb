@@ -1,5 +1,5 @@
 class UserAnswer < ActiveRecord::Base
-  attr_accessible :question_id, :answer_id, :user_id, :attempt_no
+  attr_accessible :question_id, :answer_id, :user_id, :attempt_no, :right
   belongs_to :question
-  belongs_to :answer
+  has_many :answer
 end

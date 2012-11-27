@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b String:
+  = @poll_category.string
+
+= link_to 'Edit', edit_poll_category_path(@poll_category)
+\|
+= link_to 'Back', poll_categories_path

@@ -15,13 +15,16 @@ class QuestionsController < ApplicationController
   # GET /questions/1
   # GET /questions/1.json
   def show
+
+    poll_id = params[:poll_category_id]
+    question_original_pos = params[:id]
     unless params[:restart].blank?
-      puts "Before method call"
       flash[:notice] = "Почнемо!"
       set_empty_session
+      session[:current_poll_category] = poll_id
      end
     puts params
-    @question = Question.find(params[:id])
+    @question = Question.where(original_list_number: question_original_pos, poll_category_id: poll_id).first
 
     respond_to do |format|
       format.html # show.html.erb

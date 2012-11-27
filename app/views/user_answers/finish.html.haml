@@ -9,5 +9,6 @@
     %p= "Wrong answers #{@wrong_answers.size}"
     = link_to 'Show wrong answers', '/user_answers?category=wrong', remote: true
 .restart_new
-  = link_to 'Restart', '/questions/1?restart=true', class: "button"
+  = link_to 'Restart', "/poll_categories/#{current_category}/questions/1?restart=true", class: "button"
+  = link_to 'All test', '/poll_boards', class: "button"
 
